@@ -1,44 +1,88 @@
-Title: AWS Mattermost Deployment (VPC + Public/Private Subnets + RDS)
+AWS Mattermost Deployment Project
 
-Overview
-Is project me maine AWS pe Mattermost deploy kiya using secure cloud architecture. Isme networking, security groups, database connectivity, aur application access proper tariqay se configure kiya gaya.
+This project demonstrates the deployment of Mattermost on AWS using a secure VPC-based architecture with public and private subnets.
 
-Architecture
+------------------------------------
+PROJECT OVERVIEW
+------------------------------------
 
-VPC (10.0.0.0/16)
+In this project, we deployed:
+- Mattermost application on an EC2 instance (Application Server)
+- MySQL database on a separate EC2 instance (Database Server)
+- Custom VPC with public and private subnets
+- Secure communication between application and database
 
-Public Subnet (App server)
+------------------------------------
+ARCHITECTURE USED
+------------------------------------
 
-Private Subnet (Database server)
+- VPC CIDR: 10.0.0.0/16
+- Public Subnet: 10.0.1.0/24
+- Private Subnet: 10.0.2.0/24
 
-Security Groups (App: 22/8065, DB: 3306 only from App SG)
+Application Server:
+- Located in Public Subnet
+- Exposes Mattermost on port 8065
+- Accessible from the internet
 
-Mattermost runs on port 8065
+Database Server:
+- Located in Private Subnet
+- MySQL running on port 3306
+- Accessible only from Application Server
 
-Key Steps Performed
+------------------------------------
+PORTS AND SECURITY
+------------------------------------
 
-Created VPC, subnets, route tables, and IGW
+- SSH: Port 22 (restricted access)
+- MySQL: Port 3306 (TCP)
+- Mattermost: Port 8065 (TCP)
 
-Launched EC2 instance for Mattermost
+Separate security groups were used for:
+- Application Server
+- Database Server
 
-Configured security groups and inbound/outbound rules
+------------------------------------
+STEPS PERFORMED
+------------------------------------
 
-Installed and started Mattermost server
+1. Installed MySQL on Database Server
+2. Retrieved temporary MySQL root password
+3. Executed MySQL configuration script
+4. Installed Mattermost on Application Server
+5. Started Mattermost server
+6. Accessed Mattermost via web browser
 
-Accessed the application via browser: http://<public-ip>:8065
+------------------------------------
+SCREENSHOTS INCLUDED
+------------------------------------
 
-Proof / Screenshots
+01-mysql-installation.png  
+02-temp-mysql-password.png  
+03-run-mysql-script.png  
+04-mattermost-installation.png  
+05-mattermost-server-running.png  
+06-mattermost-web-ui.png  
 
-Added screenshots in repo: Picture1.png … Picture6.png
+------------------------------------
+RESULT
+------------------------------------
 
-What I Learned
+Mattermost was successfully deployed and accessed via browser using:
+http://<Application-Server-Public-IP>:8065
 
-CIDR planning + subnetting (overlap avoidance)
+------------------------------------
+LEARNINGS
+------------------------------------
 
-Secure access using SG rules (least privilege)
+- AWS VPC networking (CIDR, subnets, routing)
+- Security Groups and port management
+- EC2 based application deployment
+- Secure database access using private subnet
+- Git and GitHub for project version control
 
-App-to-DB communication over TCP 3306
+------------------------------------
+AUTHOR
+------------------------------------
 
-Exposing app via public IP and custom port 8065
-
-Basic troubleshooting (service logs + connectivity)
+Muhammad Umair Khan
